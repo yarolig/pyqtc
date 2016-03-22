@@ -1,3 +1,8 @@
+
+另外一个PythonIDE:
+[qt-creator-py-reborn](https://bitbucket.org/kpozn/qt-creator-py-reborn/src)
+
+
 Pyqtc is a plugin for Qt Creator that adds Python code-completion, navigation
 and documentation.
 
