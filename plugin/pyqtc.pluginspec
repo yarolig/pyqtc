@@ -22,7 +22,7 @@ SOFTWARE.
     <description>Python browsing and completion for Qt Creator</description>
     <url></url>
     <dependencyList>
-        <dependency name="Core" version="2.8"/>
+        <dependency name="Core" version="2.8.1"/>
     </dependencyList>
 </plugin>
 
