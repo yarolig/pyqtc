@@ -18,6 +18,7 @@
 #include "constants.h"
 #include "pythoneditor.h"
 #include "pythonindenter.h"
+#include "completionassist.h"
 
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/actionmanager/actionmanager.h>
@@ -49,7 +50,7 @@ PythonEditorWidget::PythonEditorWidget(QWidget* parent)
   : TextEditor::PlainTextEditorWidget(parent)
 {
   setMimeType(QLatin1String(constants::kPythonMimetype));
-  setDisplayName(tr(constants::kEditorDisplayName));
+  // setDisplayName(tr(constants::kEditorDisplayName));
   setIndenter(new PythonIndenter);
 
   comment_definition_.isAfterWhiteSpaces = false;
@@ -65,13 +66,17 @@ void PythonEditorWidget::unCommentSelection() {
 void PythonEditorWidget::contextMenuEvent(QContextMenuEvent* e) {
   QScopedPointer<QMenu> menu(new QMenu);
 
-  Core::ActionManager* am = Core::ICore::instance()->actionManager();
-  Core::ActionContainer* mcontext = am->actionContainer(constants::kMenuContext);
+  Core::ActionContainer* mcontext = Core::ActionManager::actionContainer(constants::kMenuContext);
 
   menu->addActions(mcontext->menu()->actions());
   appendStandardContextMenuActions(menu.data());
 
   menu->exec(e->globalPos());
+}
+
+
+TextEditor::CompletionAssistProvider *PythonEditor::completionAssistProvider() {
+    return CompletionAssistProvider::instance();
 }
 
 

@@ -22,7 +22,7 @@ bool HoverHandler::acceptEditor(Core::IEditor* editor) {
 
 void HoverHandler::identifyMatch(TextEditor::ITextEditor* editor, int pos) {
   current_reply_ = worker_pool_->NextHandler()->Tooltip(
-        editor->document()->fileName(),
+        editor->document()->filePath(),
         editor->textDocument()->contents(),
         pos);
 

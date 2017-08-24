@@ -41,6 +41,10 @@ public:
 #else
   QString id() const;
 #endif
+
+  // BaseTextEditor interface
+public:
+  TextEditor::CompletionAssistProvider *completionAssistProvider();
 };
 
 

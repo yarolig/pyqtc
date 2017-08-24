@@ -17,11 +17,7 @@ Projects::Projects(WorkerPool<WorkerClient>* worker_pool, QObject* parent)
   : QObject(parent),
     worker_pool_(worker_pool)
 {
-  ProjectExplorer::ProjectExplorerPlugin* pe =
-     ProjectExplorer::ProjectExplorerPlugin::instance();
-  QTC_ASSERT(pe, return);
-
-  ProjectExplorer::SessionManager* session = pe->session();
+  QObject* session = ProjectExplorer::SessionManager::instance();
   QTC_ASSERT(session, return);
 
   connect(session, SIGNAL(projectAdded(ProjectExplorer::Project*)),

@@ -105,8 +105,7 @@ PythonCurrentDocumentFilter::PythonCurrentDocumentFilter(
     WorkerPool<WorkerClient>* worker_pool, const PythonIcons* icons)
   : PythonFilterBase(worker_pool, icons)
 {
-  Core::ICore* core = Core::ICore::instance();
-  Core::EditorManager* editor_manager = core->editorManager();
+  Core::EditorManager* editor_manager = Core::EditorManager::instance();
 
   connect(editor_manager, SIGNAL(currentEditorChanged(Core::IEditor*)),
           SLOT(CurrentEditorChanged(Core::IEditor*)));
@@ -116,6 +115,6 @@ PythonCurrentDocumentFilter::PythonCurrentDocumentFilter(
 
 void PythonCurrentDocumentFilter::CurrentEditorChanged(Core::IEditor* editor) {
   if (editor) {
-    set_file_path(editor->document()->fileName());
+    set_file_path(editor->document()->filePath());
   }
 }

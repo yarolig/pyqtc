@@ -20,11 +20,14 @@
 
 using namespace pyqtc;
 
+CompletionAssistProvider* m_instance = 0;
+
 CompletionAssistProvider::CompletionAssistProvider(WorkerPool<WorkerClient>* worker_pool,
                                                    const PythonIcons* icons)
   : worker_pool_(worker_pool),
     icons_(icons)
 {
+    m_instance = this;
 }
 
 #ifdef QTC_HAS_CORE_ID
@@ -197,4 +200,10 @@ int FunctionHintProposalModel::activeArgument(const QString& prefix) const {
 
   current_arg_ = arg;
   return arg;
+}
+
+
+
+CompletionAssistProvider *CompletionAssistProvider::instance() {
+    return m_instance;
 }

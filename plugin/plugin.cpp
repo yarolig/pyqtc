@@ -59,9 +59,7 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
   Q_UNUSED(arguments)
   Q_UNUSED(errorString)
 
-  Core::ICore* core = Core::ICore::instance();
-
-  if (!core->mimeDatabase()->addMimeTypes(
+  if (!Core::MimeDatabase::addMimeTypes(
         QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"), errorString))
       return false;
 
@@ -73,12 +71,11 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
   addAutoReleasedObject(new PythonFunctionFilter(worker_pool_, icons_));
   addAutoReleasedObject(new PythonCurrentDocumentFilter(worker_pool_, icons_));
 
-  Core::ActionManager* am = core->actionManager();
   Core::Context context(constants::kEditorId);
-  Core::ActionContainer* menu = am->createMenu(constants::kMenuContext);
+  Core::ActionContainer* menu = Core::ActionManager::createMenu(constants::kMenuContext);
 
   QAction* action = new QAction(tr("Follow Symbol Under Cursor"), this);
-  Core::Command* cmd = am->registerAction(
+  Core::Command* cmd = Core::ActionManager::registerAction(
         action, constants::kJumpToDefinitionId, context);
   cmd->setDefaultKeySequence(QKeySequence(Qt::Key_F2));
   connect(action, SIGNAL(triggered()), this, SLOT(JumpToDefinition()));
@@ -88,8 +85,7 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
 }
 
 void Plugin::extensionsInitialized() {
-  Core::HelpManager* help_manager = Core::HelpManager::instance();
-  help_manager->registerDocumentation(QStringList() << config::kDocumentationPath);
+  Core::HelpManager::registerDocumentation(QStringList() << config::kDocumentationPath);
 }
 
 ExtensionSystem::IPlugin::ShutdownFlag Plugin::aboutToShutdown() {
@@ -106,7 +102,7 @@ void Plugin::JumpToDefinition() {
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->DefinitionLocation(
-        editor->editorDocument()->fileName(),
+        editor->editorDocument()->filePath(),
         editor->document()->toPlainText(),
         editor->position());
 

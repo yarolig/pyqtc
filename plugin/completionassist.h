@@ -36,6 +36,7 @@ public:
   bool isActivationCharSequence(const QString& sequence) const;
   TextEditor::IAssistProcessor* createProcessor() const;
 
+  static CompletionAssistProvider* instance();
 private:
   WorkerPool<WorkerClient>* worker_pool_;
   const PythonIcons* icons_;

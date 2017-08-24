@@ -32,13 +32,15 @@ using namespace pyqtc;
 PythonEditorFactory::PythonEditorFactory(QObject* parent)
   : Core::IEditorFactory(parent)
 {
-  mime_types_ << "text/plain"
-              << "text/python"
-              << "text/x-python"
-              << "application/python"
-              << "application/x-python"
-                ;
-  action_handler_ = new TextEditor::TextEditorActionHandler(
+    setId(constants::kEditorId);
+    setDisplayName(tr(constants::kEditorDisplayName));
+    addMimeType("text/plain");
+    addMimeType("text/python");
+    addMimeType("text/x-python");
+    addMimeType("application/python");
+    addMimeType("application/x-python");
+
+    action_handler_ = new TextEditor::TextEditorActionHandler(
       constants::kEditorId,
       TextEditor::TextEditorActionHandler::Format |
       TextEditor::TextEditorActionHandler::UnCommentSelection |
