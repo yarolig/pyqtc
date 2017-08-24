@@ -40,7 +40,7 @@ public:
   Core::Id id() const;
   QString displayName() const;
   Core::IDocument* open(const QString& file_name);
-  Core::IEditor* createEditor(QWidget* parent);
+  Core::IEditor* createEditor();
 
 private:
   QStringList mime_types_;

@@ -41,6 +41,7 @@ PythonEditorFactory::PythonEditorFactory(QObject* parent)
     addMimeType("application/x-python");
 
     action_handler_ = new TextEditor::TextEditorActionHandler(
+      parent,
       constants::kEditorId,
       TextEditor::TextEditorActionHandler::Format |
       TextEditor::TextEditorActionHandler::UnCommentSelection |
@@ -70,10 +71,10 @@ Core::IDocument* PythonEditorFactory::open(const QString& file_name) {
   return iface->document();
 }
 
-Core::IEditor* PythonEditorFactory::createEditor(QWidget* parent) {
-  PythonEditorWidget* widget = new PythonEditorWidget(parent);
+Core::IEditor* PythonEditorFactory::createEditor() {
+  PythonEditorWidget* widget = new PythonEditorWidget();
 
-  action_handler_->setupActions(widget);
+  //action_handler_->createActions();
   TextEditor::TextEditorSettings::instance()->initializeEditor(widget);
 
   return widget->editor();

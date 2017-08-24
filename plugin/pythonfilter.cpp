@@ -27,7 +27,7 @@ using namespace pyqtc;
 
 PythonFilterBase::PythonFilterBase(WorkerPool<WorkerClient>* worker_pool,
                                    const PythonIcons* icons)
-  : Locator::ILocatorFilter(NULL),
+  : Core::ILocatorFilter(NULL),
     worker_pool_(worker_pool),
     icons_(icons),
     symbol_type_(pb::ALL),
@@ -35,13 +35,13 @@ PythonFilterBase::PythonFilterBase(WorkerPool<WorkerClient>* worker_pool,
 {
 }
 
-QList<Locator::FilterEntry> PythonFilterBase::matchesFor(
-    QFutureInterface<Locator::FilterEntry>& future, const QString& entry) {
+QList<Core::LocatorFilterEntry> PythonFilterBase::matchesFor(
+    QFutureInterface<Core::LocatorFilterEntry>& future, const QString& entry) {
   QScopedPointer<WorkerClient::ReplyType> reply(
         worker_pool_->NextHandler()->Search(entry, file_path_, symbol_type_));
   reply->WaitForFinished();
 
-  QList<Locator::FilterEntry> ret;
+  QList<Core::LocatorFilterEntry> ret;
   if (!reply->is_successful() || future.isCanceled()) {
     return ret;
   }
@@ -53,7 +53,7 @@ QList<Locator::FilterEntry> PythonFilterBase::matchesFor(
 
     EntryInternalData internal_data(result->file_path(), result->line_number());
 
-    Locator::FilterEntry entry(this, result->symbol_name(),
+    Core::LocatorFilterEntry entry(this, result->symbol_name(),
                                QVariant::fromValue(internal_data));
     entry.extraInfo = result->module_name();
     entry.displayIcon = icons_->IconForSearchResult(*result);
@@ -64,7 +64,7 @@ QList<Locator::FilterEntry> PythonFilterBase::matchesFor(
   return ret;
 }
 
-void PythonFilterBase::accept(Locator::FilterEntry selection) const {
+void PythonFilterBase::accept(Core::LocatorFilterEntry selection) const {
   const EntryInternalData& data =
       selection.internalData.value<pyqtc::PythonFilterBase::EntryInternalData>();
 

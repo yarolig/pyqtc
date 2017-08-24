@@ -102,7 +102,7 @@ void Plugin::JumpToDefinition() {
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->DefinitionLocation(
-        editor->editorDocument()->filePath(),
+        editor->editor()->document()->filePath(),
         editor->document()->toPlainText(),
         editor->position());
 

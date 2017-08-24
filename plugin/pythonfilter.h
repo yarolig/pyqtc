@@ -18,7 +18,7 @@
 #ifndef PYQTC_PYTHONFILTER_H
 #define PYQTC_PYTHONFILTER_H
 
-#include <locator/ilocatorfilter.h>
+#include <coreplugin/locator/ilocatorfilter.h>
 
 #include "workerclient.h"
 #include "workerpool.h"
@@ -32,16 +32,16 @@ namespace pyqtc {
 
 class PythonIcons;
 
-class PythonFilterBase : public Locator::ILocatorFilter {
+class PythonFilterBase : public Core::ILocatorFilter {
 public:
   PythonFilterBase(WorkerPool<WorkerClient>* worker_pool,
                    const PythonIcons* icons);
 
   Priority priority() const { return Medium; }
 
-  QList<Locator::FilterEntry> matchesFor(
-      QFutureInterface<Locator::FilterEntry>& future, const QString& entry);
-  void accept(Locator::FilterEntry selection) const;
+  QList<Core::LocatorFilterEntry> matchesFor(
+      QFutureInterface<Core::LocatorFilterEntry>& future, const QString& entry);
+  void accept(Core::LocatorFilterEntry selection) const;
   void refresh(QFutureInterface<void>& future);
 
 

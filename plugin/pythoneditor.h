@@ -52,7 +52,7 @@ class PythonEditorWidget : public TextEditor::PlainTextEditorWidget {
   Q_OBJECT
 
 public:
-  PythonEditorWidget(QWidget* parent);
+  PythonEditorWidget();
 
   void unCommentSelection();
 

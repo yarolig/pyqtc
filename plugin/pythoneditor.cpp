@@ -46,12 +46,13 @@ QString PythonEditor::id() const {
 #endif
 
 
-PythonEditorWidget::PythonEditorWidget(QWidget* parent)
-  : TextEditor::PlainTextEditorWidget(parent)
+PythonEditorWidget::PythonEditorWidget()
+  : TextEditor::PlainTextEditorWidget()
 {
-  setMimeType(QLatin1String(constants::kPythonMimetype));
+
+  //setMimeType(QLatin1String(constants::kPythonMimetype));
   // setDisplayName(tr(constants::kEditorDisplayName));
-  setIndenter(new PythonIndenter);
+  //setIndenter(new PythonIndenter);
 
   comment_definition_.isAfterWhiteSpaces = false;
   comment_definition_.singleLine = "#";
