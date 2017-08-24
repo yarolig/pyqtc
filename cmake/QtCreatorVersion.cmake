@@ -13,6 +13,7 @@ macro(find_qt_creator_library output_var name)
   find_library(${output_var}
     NAMES ${name}
     PATHS ${QTC_BINARY}/lib/qtcreator
+          ${QTC_BINARY}/lib/qtcreator/plugins
           ${QTC_BINARY}/lib/qtcreator/plugins/Nokia
   )
   find_file(${output_var}
@@ -20,6 +21,7 @@ macro(find_qt_creator_library output_var name)
           lib${name}.so.1
           lib${name}.so.1.0.0
     PATHS ${QTC_BINARY}/lib/qtcreator
+          ${QTC_BINARY}/lib/qtcreator/plugins
           ${QTC_BINARY}/lib/qtcreator/plugins/Nokia
           ${QTC_BINARY}/lib/qtcreator/plugins/QtProject
   )

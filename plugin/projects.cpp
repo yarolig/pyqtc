@@ -27,7 +27,7 @@ Projects::Projects(WorkerPool<WorkerClient>* worker_pool, QObject* parent)
 }
 
 void Projects::ProjectAdded(ProjectExplorer::Project* project) {
-  const QString project_root = project->projectDirectory();
+  const QString project_root = project->projectDirectory().toString();
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->CreateProject(project_root);
@@ -46,7 +46,7 @@ void Projects::CreateProjectFinished(WorkerClient::ReplyType* reply,
 
 void Projects::AboutToRemoveProject(ProjectExplorer::Project* project) {
   WorkerClient::ReplyType* reply =
-      worker_pool_->NextHandler()->DestroyProject(project->projectDirectory());
+      worker_pool_->NextHandler()->DestroyProject(project->projectDirectory().toString());
 
   connect(reply, SIGNAL(Finished(bool)), reply, SLOT(deleteLater()));
 }

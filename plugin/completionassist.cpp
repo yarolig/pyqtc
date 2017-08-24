@@ -31,7 +31,7 @@ CompletionAssistProvider::CompletionAssistProvider(WorkerPool<WorkerClient>* wor
 }
 
 #ifdef QTC_HAS_CORE_ID
-bool CompletionAssistProvider::supportsEditor(const Core::Id& editorId) const {
+bool CompletionAssistProvider::supportsEditor(const Core::Id editorId) const {
   return editorId == Core::Id(constants::kEditorId);
 }
 #else
@@ -52,6 +52,13 @@ TextEditor::IAssistProcessor* CompletionAssistProvider::createProcessor() const 
   return new CompletionAssistProcessor(worker_pool_, icons_);
 }
 
+bool CompletionAssistProvider::isAsynchronous() const {
+    return true;
+}
+
+bool CompletionAssistProvider::isContinuationChar(const QChar &c) const {
+    return false;
+}
 
 CompletionAssistProcessor::CompletionAssistProcessor(WorkerPool<WorkerClient>* worker_pool,
       const PythonIcons* icons)

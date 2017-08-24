@@ -27,7 +27,7 @@ public:
                            const PythonIcons* icons);
 
 #ifdef QTC_HAS_CORE_ID
-  bool supportsEditor(const Core::Id& editorId) const;
+  bool supportsEditor(const Core::Id editorId) const;
 #else
   bool supportsEditor(const QString& editorId) const;
 #endif
@@ -40,6 +40,14 @@ public:
 private:
   WorkerPool<WorkerClient>* worker_pool_;
   const PythonIcons* icons_;
+
+  // IAssistProvider interface
+public:
+  bool isAsynchronous() const;
+
+  // CompletionAssistProvider interface
+public:
+  bool isContinuationChar(const QChar &c) const;
 };
 
 

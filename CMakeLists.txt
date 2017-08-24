@@ -32,6 +32,7 @@ set(CMAKE_INSTALL_PREFIX ${QTC_BINARY} CACHE PATH "Install dir" FORCE)
 
 set(PYQTC_LIB_DIR   "lib/qtcreator/plugins/davidsansome")
 set(PYQTC_SHARE_DIR "share/qtcreator/pyqtc")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 # Get the Qt Creator version
 find_qt_creator_version(QTC_VERSION ${QTC_SOURCE})
@@ -44,9 +45,10 @@ endif()
 find_qt_creator_library(QTC_AGGREGATION_LIB      Aggregation)
 find_qt_creator_library(QTC_BOTAN_LIB            Botan)
 find_qt_creator_library(QTC_CPLUSPLUS_LIB        CPlusPlus)
-find_qt_creator_library(QTC_CORE_LIB             Core)
+#find_qt_creator_library(QTC_CORE_LIB             Core)
+find_qt_creator_library(QTC_TEXT_EDITOR_LIB      TextEditor)
 find_qt_creator_library(QTC_EXTENSION_SYSTEM_LIB ExtensionSystem)
-find_qt_creator_library(QTC_LOCATOR_LIB          Locator)
+#find_qt_creator_library(QTC_LOCATOR_LIB          Locator)
 find_qt_creator_library(QTC_PROJECT_EXPLORER_LIB ProjectExplorer)
 find_qt_creator_library(QTC_UTILS_LIB            Utils)
 
