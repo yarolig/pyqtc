@@ -3,6 +3,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${QTC_SOURCE}/src
   ${QTC_SOURCE}/src/libs
+  ${QTC_SOURCE}/src/libs/3rdparty
   ${QTC_SOURCE}/src/libs/3rdparty/cplusplus
   ${QTC_SOURCE}/src/plugins
   ${QTC_SOURCE}/tools
@@ -83,7 +84,7 @@ add_library(pyqtc SHARED
 
 target_link_libraries(pyqtc
   ${QTC_AGGREGATION_LIB}
-  ${QTC_BOTAN_LIB}
+  #${QTC_BOTAN_LIB}
   ${QTC_CPLUSPLUS_LIB}
   ${QTC_CORE_LIB}
   ${QTC_EXTENSION_SYSTEM_LIB}

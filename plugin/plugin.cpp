@@ -106,7 +106,7 @@ void Plugin::JumpToDefinition() {
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->DefinitionLocation(
-        editor->file()->fileName(),
+        editor->editorDocument()->fileName(),
         editor->document()->toPlainText(),
         editor->position());
 
@@ -134,7 +134,7 @@ void Plugin::JumpToDefinitionFinished(WorkerClient::ReplyType* reply) {
 
   if (response.has_line()) {
     if (response.has_file_path()) {
-      editor->openEditorAt(response.file_path(), response.line());
+      Core::EditorManager::openEditorAt(response.file_path(), response.line());
     } else {
       editor->gotoLine(response.line());
     }

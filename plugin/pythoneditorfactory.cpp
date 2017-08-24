@@ -32,10 +32,12 @@ using namespace pyqtc;
 PythonEditorFactory::PythonEditorFactory(QObject* parent)
   : Core::IEditorFactory(parent)
 {
-  mime_types_ << "text/python"
+  mime_types_ << "text/plain"
+              << "text/python"
               << "text/x-python"
               << "application/python"
-              << "application/x-python";
+              << "application/x-python"
+                ;
   action_handler_ = new TextEditor::TextEditorActionHandler(
       constants::kEditorId,
       TextEditor::TextEditorActionHandler::Format |
@@ -55,7 +57,7 @@ QString PythonEditorFactory::displayName() const {
   return tr(constants::kEditorDisplayName);
 }
 
-Core::IFile* PythonEditorFactory::open(const QString& file_name) {
+Core::IDocument* PythonEditorFactory::open(const QString& file_name) {
   qDebug() << "Opening" << file_name;
 
   Core::IEditor* iface = Core::EditorManager::instance()->openEditor(file_name, id());
@@ -63,7 +65,7 @@ Core::IFile* PythonEditorFactory::open(const QString& file_name) {
     qWarning() << "pyqtc::EditorFactory::open: openEditor failed for " << file_name;
     return 0;
   }
-  return iface->file();
+  return iface->document();
 }
 
 Core::IEditor* PythonEditorFactory::createEditor(QWidget* parent) {

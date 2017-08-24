@@ -52,10 +52,10 @@ PythonEditorWidget::PythonEditorWidget(QWidget* parent)
   setDisplayName(tr(constants::kEditorDisplayName));
   setIndenter(new PythonIndenter);
 
-  comment_definition_.setAfterWhiteSpaces(false);
-  comment_definition_.setSingleLine("#");
-  comment_definition_.setMultiLineStart("'''");
-  comment_definition_.setMultiLineEnd("'''");
+  comment_definition_.isAfterWhiteSpaces = false;
+  comment_definition_.singleLine = "#";
+  comment_definition_.multiLineStart = "'''";
+  comment_definition_.multiLineEnd = "'''";
 }
 
 void PythonEditorWidget::unCommentSelection() {

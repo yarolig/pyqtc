@@ -1,8 +1,3 @@
-
-另外一个PythonIDE:
-[qt-creator-py-reborn](https://bitbucket.org/kpozn/qt-creator-py-reborn/src)
-
-
 Pyqtc is a plugin for Qt Creator that adds Python code-completion, navigation
 and documentation.
 
@@ -15,14 +10,16 @@ Dependencies
 You need:
 
   * Protobuf 2.4.0 or greater.
-    Some distributions don't ship version 2.4.0 yet.  If yours doesn't you must
-    download it from http://code.google.com/p/protobuf/downloads/list and
-    compile from source.
-  * Qt Creator 2.4.1 or greater.
+  * Qt Creator 2.8.
   * The Qt Creator source code.  You don't have to compile Qt Creator yourself,
     but you do need to have the source available.  You can download it from
-    http://qt.nokia.com/downloads/downloads#qt-creator
+    https://github.com/qtproject/qt-creator
   * Python and Pylint
+
+Quick build
+-----------
+
+For Ubuntu 16.04 launch `sudo apt-get install build-essential libprotoc-dev libprotobuf-dev python-protobuf qt4-qmake cmake pylint`
 
 Compiling pyqtc
 ---------------
@@ -38,6 +35,8 @@ source directory will be used to find header files.
              -DQTC_BINARY=/path/to/qtcreator/installation
     make
     make install
+
+You may need to copy `python.xml` to `~/.config/QtProject/qtcreator/generic-highlighter` if highlihgting not working.
 
 Features
 ========

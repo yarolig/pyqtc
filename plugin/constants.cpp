@@ -23,7 +23,7 @@ namespace constants {
 const char* kPythonMimetype = "text/x-python";
 const char* kPythonLanguage = "PYTHON";
 
-const char* kEditorDisplayName = "Python Editor";
+const char* kEditorDisplayName = "Python Editor (pyqtc)";
 const char* kEditorId = "pyqtc.PythonEditor";
 
 const char* kMenuContext = "pyqtc.ContextMenu";

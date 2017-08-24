@@ -2,10 +2,10 @@
 #include "hoverhandler.h"
 #include "rpc.pb.h"
 
-#include <coreplugin/ifile.h>
+#include <coreplugin/idocument.h>
 #include <texteditor/itexteditor.h>
-#include <texteditor/tooltip/tipcontents.h>
-#include <texteditor/tooltip/tooltip.h>
+#include <utils/tooltip/tipcontents.h>
+#include <utils/tooltip/tooltip.h>
 
 using namespace pyqtc;
 
@@ -22,8 +22,8 @@ bool HoverHandler::acceptEditor(Core::IEditor* editor) {
 
 void HoverHandler::identifyMatch(TextEditor::ITextEditor* editor, int pos) {
   current_reply_ = worker_pool_->NextHandler()->Tooltip(
-        editor->file()->fileName(),
-        editor->contents(),
+        editor->document()->fileName(),
+        editor->textDocument()->contents(),
         pos);
 
   NewClosure(current_reply_, SIGNAL(Finished(bool)),
@@ -40,11 +40,11 @@ void HoverHandler::TooltipResponse(WorkerClient::ReplyType* reply) {
   const QString& text = reply->message().tooltip_response().rich_text();
   if (current_editor_) {
     if (text.isEmpty())
-      TextEditor::ToolTip::instance()->hide();
+      Utils::ToolTip::instance()->hide();
     else
-      TextEditor::ToolTip::instance()->show(
+      Utils::ToolTip::instance()->show(
             current_point_,
-            TextEditor::TextContent(text),
+            Utils::TextContent(text),
             current_editor_->widget());
   }
 

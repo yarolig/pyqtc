@@ -15,6 +15,7 @@
    along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "config.h"
 #include "pythonfilter.h"
 #include "pythonicons.h"
 
@@ -73,9 +74,9 @@ void PythonFilterBase::accept(Locator::FilterEntry selection) const {
   QString editor_kind;
 #endif
 
-  TextEditor::BaseTextEditorWidget::openEditorAt(
+  Core::EditorManager::openEditorAt(
         data.file_path_, data.line_number_, 0,
-        editor_kind, Core::EditorManager::ModeSwitch);
+        editor_kind);
 }
 
 void PythonFilterBase::refresh(QFutureInterface<void>& future) {
@@ -115,6 +116,6 @@ PythonCurrentDocumentFilter::PythonCurrentDocumentFilter(
 
 void PythonCurrentDocumentFilter::CurrentEditorChanged(Core::IEditor* editor) {
   if (editor) {
-    set_file_path(editor->file()->fileName());
+    set_file_path(editor->document()->fileName());
   }
 }

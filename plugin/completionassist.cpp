@@ -4,7 +4,7 @@
 #include "workerclient.h"
 #include "workerpool.h"
 
-#include <coreplugin/ifile.h>
+#include <coreplugin/idocument.h>
 #include <texteditor/codeassist/basicproposalitem.h>
 #include <texteditor/codeassist/basicproposalitemlistmodel.h>
 #include <texteditor/codeassist/functionhintproposal.h>
@@ -80,8 +80,8 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::perform(
 
   QScopedPointer<WorkerClient::ReplyType> reply(
       worker_pool_->NextHandler()->Completion(
-        interface->file()->fileName(),
-        interface->document()->toPlainText(),
+        interface->fileName(),
+        interface->textDocument()->toPlainText(),
         interface->position()));
   reply->WaitForFinished();
 

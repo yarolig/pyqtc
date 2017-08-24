@@ -21,7 +21,7 @@ class UnknownRequestType(Exception):
   """
   The request protobuf did not contain any recognised request types.
   """
-  
+
   pass
 
 
@@ -47,7 +47,7 @@ class MessageHandler(object):
     """
     Reads a uint32 length-encoded protobuf from the file handle and returns it.
     """
-    
+
     # Read the length
     encoded_length = handle.read(4)
     if len(encoded_length) != 4:
@@ -88,11 +88,11 @@ class MessageHandler(object):
       name = descriptor.name
       if not name.endswith(self.REQUEST_SUFFIX):
         continue
-      
+
       # Convert some_thing_request to SomeThingRequest
       func_name = name[0].upper() + name[1:]
       func_name = self.UNDER_LETTER.sub(lambda m: m.group(1).upper(), func_name)
-      
+
       try:
         function = getattr(self, func_name)
       except AttributeError:
@@ -105,13 +105,13 @@ class MessageHandler(object):
       response_pb = getattr(response, response_name)
 
       return (function, request_pb, response_pb)
-    
+
     raise UnknownRequestType
 
   def ServeForever(self, socket_filename):
     """
     Connects to the given local socket and listens for incoming request
-    protobufs.  Handles the requests and writes the responses back to the 
+    protobufs.  Handles the requests and writes the responses back to the
     socket.
     """
 
