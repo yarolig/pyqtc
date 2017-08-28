@@ -1,12 +1,28 @@
-#ifndef PYQTC_COMPLETIONASSIST_H
-#define PYQTC_COMPLETIONASSIST_H
+/*  pyqtc - QtCreator plugin with code completion using rope.
+    Copyright 2011 David Sansome <me@davidsansome.com>
+    Copyright 2017 Alexander Izmailov <yarolig@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#pragma once
 
 #include <cplusplus/Icons.h>
 #include <texteditor/codeassist/completionassistprovider.h>
 #include <texteditor/codeassist/functionhintproposal.h>
 #include <texteditor/codeassist/iassistprocessor.h>
 #include <texteditor/codeassist/ifunctionhintproposalmodel.h>
-#include <texteditor/codeassist/igenericproposalmodel.h>
+#include <texteditor/codeassist/genericproposalmodel.h>
 
 #include "config.h"
 #include "rpc.pb.h"
@@ -56,8 +72,7 @@ public:
   CompletionAssistProcessor(WorkerPool<WorkerClient>* worker_pool,
                             const PythonIcons* icons);
 
-  TextEditor::IAssistProposal* perform(const TextEditor::IAssistInterface* interface);
-
+  TextEditor::IAssistProposal* perform(const TextEditor::AssistInterface* interface);
 private:
   TextEditor::IAssistProposal* CreateCalltipProposal(
       int position, const QString& text);
@@ -85,5 +100,3 @@ private:
 };
 
 } // namespace pyqtc
-
-#endif // PYQTC_COMPLETIONASSIST_H

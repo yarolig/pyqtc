@@ -1,3 +1,21 @@
+/*  pyqtc - QtCreator plugin with code completion using rope.
+    Copyright 2011 David Sansome <me@davidsansome.com>
+    Copyright 2017 Alexander Izmailov <yarolig@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "completionassist.h"
 #include "constants.h"
 #include "pythonicons.h"
@@ -5,13 +23,13 @@
 #include "workerpool.h"
 
 #include <coreplugin/idocument.h>
-#include <texteditor/codeassist/basicproposalitem.h>
-#include <texteditor/codeassist/basicproposalitemlistmodel.h>
 #include <texteditor/codeassist/functionhintproposal.h>
 #include <texteditor/codeassist/functionhintproposalwidget.h>
 #include <texteditor/codeassist/genericproposal.h>
-#include <texteditor/codeassist/iassistinterface.h>
+#include <texteditor/codeassist/assistinterface.h>
 #include <texteditor/convenience.h>
+#include <texteditor/codeassist/assistproposalitem.h>
+
 
 #include <QApplication>
 #include <QStack>
@@ -67,9 +85,8 @@ CompletionAssistProcessor::CompletionAssistProcessor(WorkerPool<WorkerClient>* w
 {
 }
 
-TextEditor::IAssistProposal* CompletionAssistProcessor::perform(
-    const TextEditor::IAssistInterface* interface) {
-  QScopedPointer<const TextEditor::IAssistInterface> scoped_interface(interface);
+TextEditor::IAssistProposal* CompletionAssistProcessor::perform(const TextEditor::AssistInterface *interface) {
+  QScopedPointer<const TextEditor::AssistInterface> scoped_interface(interface);
 
   switch (interface->reason()) {
   case TextEditor::ActivationCharacter:
@@ -114,11 +131,11 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::perform(
 
 TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal(
     const pb::CompletionResponse* response) {
-  QList<TextEditor::BasicProposalItem*> items;
+  QList<TextEditor::AssistProposalItem*> items;
 
   foreach (const pb::CompletionResponse_Proposal& proposal,
            response->proposal()) {
-    TextEditor::BasicProposalItem* item = new TextEditor::BasicProposalItem;
+    TextEditor::AssistProposalItem* item = new TextEditor::AssistProposalItem;
     item->setText(proposal.name());
     item->setIcon(icons_->IconForCompletionProposal(proposal));
 
@@ -127,7 +144,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal
 
   return new TextEditor::GenericProposal(
         response->insertion_position(),
-        new TextEditor::BasicProposalItemListModel(items));
+        QList<TextEditor::AssistProposalItem *>(items));
 }
 
 TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCalltipProposal(
@@ -158,7 +175,7 @@ QString FunctionHintProposalModel::text(int index) const {
 
   QStringList rich_args;
   for (int i=0 ; i<args.count() ; ++i) {
-    const QString arg_trimmed = Qt::escape(args[i].trimmed());
+    const QString arg_trimmed = args[i].trimmed().toHtmlEscaped();
 
     if (current_arg_ == i) {
       rich_args << QString("<b>%1</b>").arg(arg_trimmed);
@@ -176,8 +193,8 @@ QString FunctionHintProposalModel::text(int index) const {
         QString::number(foreground.red()),
         QString::number(foreground.green()),
         QString::number(foreground.blue()),
-        Qt::escape(text_.left(last_dot)),
-        Qt::escape(text_.mid(last_dot, open_paren - last_dot)),
+        QString(text_.left(last_dot).toHtmlEscaped()),
+        QString(text_.mid(last_dot, open_paren - last_dot).toHtmlEscaped()),
         rich_args.join(", "));
 }
 

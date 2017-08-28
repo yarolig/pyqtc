@@ -10,21 +10,20 @@ Dependencies
 You need:
 
   * Protobuf 2.4.0 or greater.
-  * Qt Creator 2.8.
-  * The Qt Creator source code.  You don't have to compile Qt Creator yourself,
-    but you do need to have the source available.  You can download it from
-    https://github.com/qtproject/qt-creator
+  * Qt Creator 3.3 source code.
+  * Qt 5.3.1 or 5.3.2
   * Python and Pylint
 
-Quick build
------------
-
-For Ubuntu 16.04 launch `sudo apt-get install build-essential libprotoc-dev libprotobuf-dev python-protobuf qt4-qmake cmake pylint`
+To install some dependencies on Ubuntu 16.04 you can launch `sudo apt-get install build-essential libprotoc-dev libprotobuf-dev python-protobuf cmake pylint`
 
 Compiling pyqtc
 ---------------
 
-You need to tell cmake the locations of the Qt Creator source and binaries.
+Install Qt 5.3.2 using Qt online installer.
+
+Build Qt Creator.
+
+Tell cmake the locations of the Qt Creator source and binaries.
 These might be in the same place if you've built Qt Creator yourself, otherwise
 they will be different.  Pyqtc will be installed into the binary directory, the
 source directory will be used to find header files.
@@ -32,7 +31,8 @@ source directory will be used to find header files.
     mkdir bin
     cd bin
     cmake .. -DQTC_SOURCE=/path/to/qtcreator/source \
-             -DQTC_BINARY=/path/to/qtcreator/installation
+             -DQTC_BINARY=/path/to/qtcreator/installation \
+             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.3/gcc_64
     make
     make install
 
@@ -85,6 +85,8 @@ file.
 
 Documentation
 -------------
+
+May not work in this version.
 
 The documentation for Python 2.7.2 is available for browsing using Qt Creator's
 Help tab.

@@ -30,6 +30,11 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/pyqtc.json.in
+  ${CMAKE_CURRENT_BINARY_DIR}/pyqtc.json
+)
+
 set(SOURCES
   ${CMAKE_CURRENT_BINARY_DIR}/config.cpp
   closure.cpp
@@ -39,7 +44,6 @@ set(SOURCES
   messagehandler.cpp
   plugin.cpp
   projects.cpp
-  pythoneditor.cpp
   pythoneditorfactory.cpp
   pythonfilter.cpp
   pythonicons.cpp
@@ -55,7 +59,6 @@ set(HEADERS
   messagehandler.h
   plugin.h
   projects.h
-  pythoneditor.h
   pythonfilter.h
   workerpool.h
 )
@@ -66,13 +69,14 @@ set(RESOURCES
   pyqtc.qrc
 )
 
-qt4_wrap_cpp(MOC ${HEADERS})
-qt4_wrap_ui(UIC ${UI})
-qt4_add_resources(QRC ${RESOURCES})
+qt5_wrap_cpp(MOC ${HEADERS})
+qt5_wrap_ui(UIC ${UI})
+qt5_add_resources(QRC ${RESOURCES})
 
 protobuf_generate_cpp_qt(PROTO_SOURCES
   ${CMAKE_SOURCE_DIR}/common/rpc.proto
 )
+
 
 add_library(pyqtc SHARED
   ${SOURCES}
@@ -83,6 +87,7 @@ add_library(pyqtc SHARED
 )
 
 target_link_libraries(pyqtc
+  ${QT_LIBRARIES}
   ${QTC_AGGREGATION_LIB}
   #${QTC_BOTAN_LIB}
   ${QTC_CPLUSPLUS_LIB}
@@ -100,3 +105,4 @@ target_link_libraries(pyqtc
 install(TARGETS pyqtc LIBRARY DESTINATION ${PYQTC_LIB_DIR})
 install(FILES pyqtc.pluginspec DESTINATION ${PYQTC_LIB_DIR})
 install(FILES python-2.7.2.qch python-2.7.2.qhc DESTINATION ${PYQTC_SHARE_DIR})
+qt5_use_modules(pyqtc Core Widgets Gui Network)
