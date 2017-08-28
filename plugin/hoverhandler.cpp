@@ -22,55 +22,58 @@
 
 #include <coreplugin/idocument.h>
 #include <texteditor/texteditor.h>
-#include <utils/tooltip/tipcontents.h>
+#include <utils/fileutils.h>
+#include <texteditor/textdocument.h>
+//#include <utils/tooltip/tipcontents.h>
 #include <utils/tooltip/tooltip.h>
 
 using namespace pyqtc;
 
 HoverHandler::HoverHandler(WorkerPool<WorkerClient>* worker_pool)
-  : worker_pool_(worker_pool),
-    current_reply_(NULL),
-    current_editor_(NULL)
+    : worker_pool_(worker_pool),
+      current_reply_(NULL),
+      current_editor_(NULL)
 {
 }
 
 bool HoverHandler::acceptEditor(Core::IEditor* editor) {
-  return true;
+    return true;
 }
 
 void HoverHandler::identifyMatch(TextEditor::TextEditorWidget *editorWidget, int pos) {
-  current_reply_ = worker_pool_->NextHandler()->Tooltip(
-        editorWidget->textDocument()->filePath(),
-        editorWidget->textDocument()->plainText(),
-        pos);
+    current_reply_ = worker_pool_->NextHandler()->Tooltip(
+                editorWidget->textDocument()->filePath().toString(),
+                editorWidget->textDocument()->plainText(),
+                pos);
 
-  NewClosure(current_reply_, SIGNAL(Finished(bool)),
-             this, SLOT(TooltipResponse(WorkerClient::ReplyType*)),
-             current_reply_);
+    NewClosure(current_reply_, SIGNAL(Finished(bool)),
+               this, SLOT(TooltipResponse(WorkerClient::ReplyType*)),
+               current_reply_);
 }
 
 void HoverHandler::TooltipResponse(WorkerClient::ReplyType* reply) {
-  reply->deleteLater();
+    reply->deleteLater();
 
-  if (!reply->is_successful() || reply != current_reply_)
-    return;
+    if (!reply->is_successful() || reply != current_reply_)
+        return;
 
-  const QString& text = reply->message().tooltip_response().rich_text();
-  if (current_editor_) {
-    if (text.isEmpty())
-      Utils::ToolTip::instance()->hide();
-    else
-      Utils::ToolTip::instance()->show(
-            current_point_,
-            Utils::TextContent(text),
-            current_editor_);
-  }
+    const QString& text = reply->message().tooltip_response().rich_text();
+    if (current_editor_) {
+        if (text.isEmpty()) {
+            Utils::ToolTip::instance()->hide();
+        } else {
+            Utils::ToolTip::instance()->show(
+                        current_point_,
+                        text, // !!! Was: Utils::TextContent(text),
+                        current_editor_);
+        }
+    }
 
-  current_reply_ = NULL;
+    current_reply_ = NULL;
 }
 
 void HoverHandler::operateTooltip(TextEditor::TextEditorWidget *editor,
                                   const QPoint& point) {
-  current_editor_ = editor;
-  current_point_ = point;
+    current_editor_ = editor;
+    current_point_ = point;
 }

@@ -10,7 +10,7 @@ add_custom_target(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # Find dependencies
-find_package(Qt5 5.3.2 EXACT REQUIRED Core Widgets Gui Network)
+find_package(Qt5 5.3.2 REQUIRED Core Widgets Gui Network)
 find_package(Threads)
 find_program(ZIP_EXECUTABLE zip)
 find_program(PYLINT_EXECUTABLE pylint)

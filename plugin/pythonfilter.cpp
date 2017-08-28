@@ -24,6 +24,7 @@
 #include <coreplugin/editormanager/ieditor.h>
 #include <coreplugin/icore.h>
 #include <texteditor/texteditor.h>
+#include <coreplugin/editormanager/editormanager.h>
 
 using namespace pyqtc;
 
@@ -117,6 +118,6 @@ PythonCurrentDocumentFilter::PythonCurrentDocumentFilter(
 
 void PythonCurrentDocumentFilter::CurrentEditorChanged(Core::IEditor* editor) {
   if (editor) {
-    set_file_path(editor->document()->filePath());
+    set_file_path(editor->document()->filePath().toString());
   }
 }

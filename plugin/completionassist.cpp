@@ -16,12 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #include "completionassist.h"
 #include "constants.h"
 #include "pythonicons.h"
 #include "workerclient.h"
 #include "workerpool.h"
 
+#include <coreplugin/id.h>
 #include <coreplugin/idocument.h>
 #include <texteditor/codeassist/functionhintproposal.h>
 #include <texteditor/codeassist/functionhintproposalwidget.h>

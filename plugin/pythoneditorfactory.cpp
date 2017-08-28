@@ -27,6 +27,7 @@
 #include <texteditor/texteditoractionhandler.h>
 #include <texteditor/texteditorsettings.h>
 #include <texteditor/texteditor.h>
+#include <texteditor/textdocument.h>
 
 #include <QtDebug>
 
@@ -51,7 +52,7 @@ PythonEditorFactory::PythonEditorFactory(QObject* parent, WorkerPool<WorkerClien
     });
 
     setCompletionAssistProvider(pyqtc::CompletionAssistProvider::instance());
-    setGenericSyntaxHighlighter(QLatin1String("application/x-python"));
+    setUseGenericHighlighter(true);
     setCommentStyle(Utils::CommentDefinition::HashStyle);
     setParenthesesMatchingEnabled(true);
     setMarksVisible(true);

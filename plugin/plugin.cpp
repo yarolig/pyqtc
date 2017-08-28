@@ -32,9 +32,11 @@
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/helpmanager.h>
+#include <texteditor/textdocument.h>
 #include <coreplugin/icore.h>
+#include <coreplugin/editormanager/editormanager.h>
 #include <coreplugin/icontext.h>
-#include <coreplugin/mimedatabase.h>
+#include <utils/mimetypes/mimedatabase.h>
 
 #include <QAction>
 #include <QMessageBox>
@@ -78,11 +80,8 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
 
   qDebug() << "pyqtc Plugin::initialize";
 
-  /*
-  if (!Core::MimeDatabase::addMimeTypes(
-        QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"), errorString))
-      return false;
-  */
+  Utils::MimeDatabase::addMimeTypes(QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"));
+
   addAutoReleasedObject(new Projects(worker_pool_));
   addAutoReleasedObject(new CompletionAssistProvider(worker_pool_, icons_));
   addAutoReleasedObject(new PythonEditorFactory(0, worker_pool_));
@@ -122,7 +121,7 @@ void Plugin::JumpToDefinition() {
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->DefinitionLocation(
-        editor->textDocument()->filePath(),
+        editor->textDocument()->filePath().toString(),
         editor->textDocument()->plainText(),
         editor->position());
 

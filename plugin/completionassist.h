@@ -42,12 +42,7 @@ public:
   CompletionAssistProvider(WorkerPool<WorkerClient>* worker_pool,
                            const PythonIcons* icons);
 
-#ifdef QTC_HAS_CORE_ID
-  bool supportsEditor(const Core::Id editorId) const;
-#else
-  bool supportsEditor(const QString& editorId) const;
-#endif
-
+  bool supportsEditor(Core::Id editorId) const;
   int activationCharSequenceLength() const;
   bool isActivationCharSequence(const QString& sequence) const;
   TextEditor::IAssistProcessor* createProcessor() const;
@@ -65,7 +60,6 @@ public:
 public:
   bool isContinuationChar(const QChar &c) const;
 };
-
 
 class CompletionAssistProcessor : public TextEditor::IAssistProcessor {
 public:
