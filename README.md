@@ -10,7 +10,7 @@ Dependencies
 You need:
 
   * Protobuf 2.4.0 or greater.
-  * Qt Creator 3.6 source code.
+  * Qt Creator 3.5 source code.
   * Qt 5.6. Other may be working.
   * Python and Pylint
 
@@ -32,7 +32,7 @@ source directory will be used to find header files.
     cd bin
     cmake .. -DQTC_SOURCE=/path/to/qtcreator/source \
              -DQTC_BINARY=/path/to/qtcreator/installation \
-             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.3/gcc_64
+             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.6/gcc_64
     make
     make install
 
