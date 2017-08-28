@@ -53,7 +53,7 @@ PythonEditorFactory::PythonEditorFactory(QObject* parent, WorkerPool<WorkerClien
 
     setCompletionAssistProvider(pyqtc::CompletionAssistProvider::instance());
     setUseGenericHighlighter(true);
-    setCommentStyle(Utils::CommentDefinition::HashStyle);
+    //setCommentStyle(Utils::CommentDefinition::HashStyle);
     setParenthesesMatchingEnabled(true);
     setMarksVisible(true);
     setCodeFoldingSupported(true);

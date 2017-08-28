@@ -27,7 +27,7 @@
 
 namespace pyqtc {
 
-class HoverHandler : public TextEditor::BaseHoverHandler {
+class HoverHandler : public QObject, public TextEditor::BaseHoverHandler {
   Q_OBJECT
 
 public:
@@ -37,7 +37,6 @@ private slots:
   void TooltipResponse(WorkerClient::ReplyType* reply);
 
 private:
-  bool acceptEditor(Core::IEditor* editor);
   void identifyMatch(TextEditor::TextEditorWidget *editorWidget, int pos);
   void operateTooltip(TextEditor::TextEditorWidget* editor, const QPoint& point);
 

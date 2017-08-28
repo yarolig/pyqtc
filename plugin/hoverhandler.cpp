@@ -24,7 +24,6 @@
 #include <texteditor/texteditor.h>
 #include <utils/fileutils.h>
 #include <texteditor/textdocument.h>
-//#include <utils/tooltip/tipcontents.h>
 #include <utils/tooltip/tooltip.h>
 
 using namespace pyqtc;
@@ -34,10 +33,6 @@ HoverHandler::HoverHandler(WorkerPool<WorkerClient>* worker_pool)
       current_reply_(NULL),
       current_editor_(NULL)
 {
-}
-
-bool HoverHandler::acceptEditor(Core::IEditor* editor) {
-    return true;
 }
 
 void HoverHandler::identifyMatch(TextEditor::TextEditorWidget *editorWidget, int pos) {

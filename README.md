@@ -10,7 +10,7 @@ Dependencies
 You need:
 
   * Protobuf 2.4.0 or greater.
-  * Qt Creator 4.0 source code.
+  * Qt Creator 4.4 source code.
   * Qt 5.6. Other may be working.
   * Python and Pylint
 

@@ -1,16 +1,16 @@
 {
     "Name" : "pyqtc",
-    "Version" : "4.0.0",
-    "CompatVersion" : "4.0.0",
+    "Version" : "4.4.0",
+    "CompatVersion" : "4.4.0",
     "Vendor" : "AlexanderIzmailov",
     "Copyright" : "Copyright 2011 David Sansome <me@davidsansome.com>, 2017 Alexander Izmailov <yarolig@gmail.com>",
     "License" : "GNU General Public License 3 or later.",
     "Description" : "Python editor with code completion.",
     "Url" : "https://github.com/yarolig/pyqtc",
     "Dependencies" : [
-        { "Name" : "Core", "Version" : "4.0" },
-        { "Name" : "TextEditor", "Version" : "4.0" },
-        { "Name" : "QtSupport", "Version" : "4.0" },
-        { "Name" : "ProjectExplorer", "Version" : "4.0" }
+        { "Name" : "Core", "Version" : "4.4" },
+        { "Name" : "TextEditor", "Version" : "4.4" },
+        { "Name" : "QtSupport", "Version" : "4.4" },
+        { "Name" : "ProjectExplorer", "Version" : "4.4" }
     ]
 }
