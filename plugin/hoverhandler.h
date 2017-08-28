@@ -27,7 +27,7 @@
 
 namespace pyqtc {
 
-class HoverHandler : public QObject, public TextEditor::BaseHoverHandler {
+class HoverHandler : public TextEditor::BaseHoverHandler {
   Q_OBJECT
 
 public:
