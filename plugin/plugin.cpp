@@ -80,7 +80,7 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
 
   qDebug() << "pyqtc Plugin::initialize";
 
-  Utils::MimeDatabase::addMimeTypes(QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"));
+  // Utils::addMimeTypes(QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"));
 
   addAutoReleasedObject(new Projects(worker_pool_));
   addAutoReleasedObject(new CompletionAssistProvider(worker_pool_, icons_));

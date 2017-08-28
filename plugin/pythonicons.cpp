@@ -22,11 +22,6 @@
 
 using namespace pyqtc;
 
-PythonIcons::PythonIcons()
-  : cpp_icons_(new CPlusPlus::Icons)
-{
-}
-
 QIcon PythonIcons::IconForCompletionProposal(
       const pb::CompletionResponse_Proposal& proposal) const {
   CPlusPlus::Icons::IconType type = CPlusPlus::Icons::UnknownIconType;
@@ -65,7 +60,7 @@ QIcon PythonIcons::IconForCompletionProposal(
     break;
   }
 
-  return cpp_icons_->iconForType(type);
+  return CPlusPlus::Icons::iconForType(type);
 }
 
 QIcon PythonIcons::IconForSearchResult(const pb::SearchResponse_Result& result) const {
@@ -95,5 +90,5 @@ QIcon PythonIcons::IconForSearchResult(const pb::SearchResponse_Result& result) 
     break;
   }
 
-  return cpp_icons_->iconForType(type);
+  return CPlusPlus::Icons::iconForType(type);
 }

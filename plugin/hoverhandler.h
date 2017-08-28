@@ -20,6 +20,7 @@
 #include "workerclient.h"
 #include "workerpool.h"
 
+#include <coreplugin/coreplugin.h>
 #include <texteditor/basehoverhandler.h>
 
 #include <QPoint>

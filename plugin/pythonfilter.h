@@ -71,6 +71,13 @@ public:
 
   QString displayName() const { return tr("Classes (Python)"); }
   QString id() const { return "Classes (Python)"; }
+
+
+  // ILocatorFilter interface
+public:
+  void accept(Core::LocatorFilterEntry selection, QString *newText, int *selectionStart, int *selectionLength) const
+  {
+  }
 };
 
 
@@ -81,6 +88,12 @@ public:
 
   QString displayName() const { return tr("Methods and functions (Python)"); }
   QString id() const { return "Methods and functions (Python)"; }
+
+  // ILocatorFilter interface
+public:
+  void accept(Core::LocatorFilterEntry selection, QString *newText, int *selectionStart, int *selectionLength) const
+  {
+  }
 };
 
 
@@ -96,6 +109,12 @@ public:
 
 private slots:
   void CurrentEditorChanged(Core::IEditor* editor);
+
+  // ILocatorFilter interface
+public:
+  void accept(Core::LocatorFilterEntry selection, QString *newText, int *selectionStart, int *selectionLength) const
+  {
+  }
 };
 
 

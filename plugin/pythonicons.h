@@ -22,23 +22,12 @@
 #include <QIcon>
 #include <QScopedPointer>
 
-
-namespace CPlusPlus {
-class Icons;
-}
-
-
 namespace pyqtc {
 
 class PythonIcons {
 public:
-  PythonIcons();
-
   QIcon IconForCompletionProposal(const pb::CompletionResponse_Proposal& proposal) const;
   QIcon IconForSearchResult(const pb::SearchResponse_Result& result) const;
-
-private:
-  QScopedPointer<CPlusPlus::Icons> cpp_icons_;
 };
 
 } // namespace pyqtc

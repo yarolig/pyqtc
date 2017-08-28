@@ -31,6 +31,7 @@
 #include <texteditor/codeassist/assistinterface.h>
 #include <texteditor/convenience.h>
 #include <texteditor/codeassist/assistproposalitem.h>
+#include <texteditor/codeassist/assistproposaliteminterface.h>
 
 
 #include <QApplication>
@@ -133,7 +134,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::perform(const TextEditor
 
 TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal(
     const pb::CompletionResponse* response) {
-  QList<TextEditor::AssistProposalItem*> items;
+  QList<TextEditor::AssistProposalItemInterface*> items;
 
   foreach (const pb::CompletionResponse_Proposal& proposal,
            response->proposal()) {
@@ -146,7 +147,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal
 
   return new TextEditor::GenericProposal(
         response->insertion_position(),
-        QList<TextEditor::AssistProposalItem *>(items));
+        QList<TextEditor::AssistProposalItemInterface *>(items));
 }
 
 TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCalltipProposal(

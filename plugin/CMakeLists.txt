@@ -103,6 +103,5 @@ target_link_libraries(pyqtc
 )
 
 install(TARGETS pyqtc LIBRARY DESTINATION ${PYQTC_LIB_DIR})
-install(FILES pyqtc.pluginspec DESTINATION ${PYQTC_LIB_DIR})
 install(FILES python-2.7.2.qch python-2.7.2.qhc DESTINATION ${PYQTC_SHARE_DIR})
 qt5_use_modules(pyqtc Core Widgets Gui Network)

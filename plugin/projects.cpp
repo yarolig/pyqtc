@@ -20,9 +20,8 @@
 
 #include "closure.h"
 #include "messagehandler.h"
-
 #include <projectexplorer/project.h>
-#include <projectexplorer/projectexplorer.h>
+//#include <projectexplorer/projectexplorer.h>
 #include <projectexplorer/session.h>
 #include <utils/qtcassert.h>
 
