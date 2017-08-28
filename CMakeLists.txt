@@ -10,12 +10,12 @@ add_custom_target(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # Find dependencies
-find_package(Qt4 4.5.0 REQUIRED QtCore QtGui QtNetwork)
+find_package(Qt5 5.3.2 EXACT REQUIRED Core Widgets Gui Network)
 find_package(Threads)
 find_program(ZIP_EXECUTABLE zip)
 find_program(PYLINT_EXECUTABLE pylint)
 find_program(PYTHON_EXECUTABLE python)
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 # Include support files
 include(cmake/ParseArguments.cmake)

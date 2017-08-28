@@ -1,9 +1,27 @@
+/*  pyqtc - QtCreator plugin with code completion using rope.
+    Copyright 2011 David Sansome <me@davidsansome.com>
+    Copyright 2017 Alexander Izmailov <yarolig@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "closure.h"
 #include "hoverhandler.h"
 #include "rpc.pb.h"
 
 #include <coreplugin/idocument.h>
-#include <texteditor/itexteditor.h>
+#include <texteditor/texteditor.h>
 #include <utils/tooltip/tipcontents.h>
 #include <utils/tooltip/tooltip.h>
 
@@ -20,10 +38,10 @@ bool HoverHandler::acceptEditor(Core::IEditor* editor) {
   return true;
 }
 
-void HoverHandler::identifyMatch(TextEditor::ITextEditor* editor, int pos) {
+void HoverHandler::identifyMatch(TextEditor::TextEditorWidget *editorWidget, int pos) {
   current_reply_ = worker_pool_->NextHandler()->Tooltip(
-        editor->document()->filePath(),
-        editor->textDocument()->plainText(),
+        editorWidget->textDocument()->filePath(),
+        editorWidget->textDocument()->plainText(),
         pos);
 
   NewClosure(current_reply_, SIGNAL(Finished(bool)),
@@ -45,13 +63,13 @@ void HoverHandler::TooltipResponse(WorkerClient::ReplyType* reply) {
       Utils::ToolTip::instance()->show(
             current_point_,
             Utils::TextContent(text),
-            current_editor_->widget());
+            current_editor_);
   }
 
   current_reply_ = NULL;
 }
 
-void HoverHandler::operateTooltip(TextEditor::ITextEditor* editor,
+void HoverHandler::operateTooltip(TextEditor::TextEditorWidget *editor,
                                   const QPoint& point) {
   current_editor_ = editor;
   current_point_ = point;

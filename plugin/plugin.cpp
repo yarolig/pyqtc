@@ -1,10 +1,27 @@
+/*  pyqtc - QtCreator plugin with code completion using rope.
+    Copyright 2011 David Sansome <me@davidsansome.com>
+    Copyright 2017 Alexander Izmailov <yarolig@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "config.h"
 #include "constants.h"
 #include "completionassist.h"
 #include "hoverhandler.h"
 #include "plugin.h"
 #include "projects.h"
-#include "pythoneditor.h"
 #include "pythoneditorfactory.h"
 #include "pythonfilter.h"
 #include "pythonicons.h"
@@ -59,14 +76,16 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
   Q_UNUSED(arguments)
   Q_UNUSED(errorString)
 
+  qDebug() << "pyqtc Plugin::initialize";
+
+  /*
   if (!Core::MimeDatabase::addMimeTypes(
         QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"), errorString))
       return false;
-
+  */
   addAutoReleasedObject(new Projects(worker_pool_));
   addAutoReleasedObject(new CompletionAssistProvider(worker_pool_, icons_));
-  addAutoReleasedObject(new HoverHandler(worker_pool_));
-  addAutoReleasedObject(new PythonEditorFactory);
+  addAutoReleasedObject(new PythonEditorFactory(0, worker_pool_));
   addAutoReleasedObject(new PythonClassFilter(worker_pool_, icons_));
   addAutoReleasedObject(new PythonFunctionFilter(worker_pool_, icons_));
   addAutoReleasedObject(new PythonCurrentDocumentFilter(worker_pool_, icons_));
@@ -94,7 +113,8 @@ ExtensionSystem::IPlugin::ShutdownFlag Plugin::aboutToShutdown() {
 
 void Plugin::JumpToDefinition() {
   Core::EditorManager* em = Core::EditorManager::instance();
-  PythonEditorWidget* editor = qobject_cast<PythonEditorWidget*>(
+
+  TextEditor::TextEditorWidget* editor = qobject_cast<TextEditor::TextEditorWidget*>(
         em->currentEditor()->widget());
   if (!editor) {
     return;
@@ -102,8 +122,8 @@ void Plugin::JumpToDefinition() {
 
   WorkerClient::ReplyType* reply =
       worker_pool_->NextHandler()->DefinitionLocation(
-        editor->editor()->document()->filePath(),
-        editor->document()->toPlainText(),
+        editor->textDocument()->filePath(),
+        editor->textDocument()->plainText(),
         editor->position());
 
   NewClosure(reply, SIGNAL(Finished(bool)),
@@ -119,7 +139,7 @@ void Plugin::JumpToDefinitionFinished(WorkerClient::ReplyType* reply) {
   }
 
   Core::EditorManager* em = Core::EditorManager::instance();
-  PythonEditorWidget* editor = qobject_cast<PythonEditorWidget*>(
+  TextEditor::TextEditorWidget* editor = qobject_cast<TextEditor::TextEditorWidget*>(
         em->currentEditor()->widget());
   if (!editor) {
     return;
@@ -136,6 +156,4 @@ void Plugin::JumpToDefinitionFinished(WorkerClient::ReplyType* reply) {
     }
   }
 }
-
-Q_EXPORT_PLUGIN2(pyqtc, Plugin)
 

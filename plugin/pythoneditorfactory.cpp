@@ -1,86 +1,69 @@
-/* This file is part of Clementine.
-   Copyright 2011, David Sansome <me@davidsansome.com>
-   
-   Clementine is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-   
-   Clementine is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-   
-   You should have received a copy of the GNU General Public License
-   along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
+/*  pyqtc - QtCreator plugin with code completion using rope.
+    Copyright 2011 David Sansome <me@davidsansome.com>
+    Copyright 2017 Alexander Izmailov <yarolig@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "constants.h"
-#include "pythoneditor.h"
+#include "hoverhandler.h"
+#include "pythonindenter.h"
 #include "pythoneditorfactory.h"
+#include "completionassist.h"
 
 #include <coreplugin/editormanager/editormanager.h>
 #include <coreplugin/editormanager/ieditor.h>
 #include <texteditor/texteditoractionhandler.h>
 #include <texteditor/texteditorsettings.h>
+#include <texteditor/texteditor.h>
 
 #include <QtDebug>
 
-using namespace pyqtc;
+//using namespace pyqtc;
+using pyqtc::PythonEditorFactory;
 
-
-PythonEditorFactory::PythonEditorFactory(QObject* parent)
-  : Core::IEditorFactory(parent)
+PythonEditorFactory::PythonEditorFactory(QObject* parent, WorkerPool<WorkerClient> *worker_pool)
+  : TextEditor::TextEditorFactory(parent)
 {
-    setId(constants::kEditorId);
-    setDisplayName(tr(constants::kEditorDisplayName));
+    setId(pyqtc::constants::kEditorId);
+    setDisplayName(tr(pyqtc::constants::kEditorDisplayName));
     addMimeType("text/plain");
     addMimeType("text/python");
     addMimeType("text/x-python");
+    addMimeType("text/x-python-gui");
     addMimeType("application/python");
     addMimeType("application/x-python");
 
-    action_handler_ = new TextEditor::TextEditorActionHandler(
-      parent,
-      constants::kEditorId,
-      TextEditor::TextEditorActionHandler::Format |
-      TextEditor::TextEditorActionHandler::UnCommentSelection |
-      TextEditor::TextEditorActionHandler::UnCollapseAll);
+    setIndenterCreator([]() { return new pyqtc::PythonIndenter; });
+    setDocumentCreator([]() {
+        return new TextEditor::TextDocument(pyqtc::constants::kEditorId);
+    });
+
+    setCompletionAssistProvider(pyqtc::CompletionAssistProvider::instance());
+    setGenericSyntaxHighlighter(QLatin1String("application/x-python"));
+    setCommentStyle(Utils::CommentDefinition::HashStyle);
+    setParenthesesMatchingEnabled(true);
+    setMarksVisible(true);
+    setCodeFoldingSupported(true);
+    setEditorActionHandlers(
+          TextEditor::TextEditorActionHandler::Format
+        | TextEditor::TextEditorActionHandler::UnCommentSelection
+        | TextEditor::TextEditorActionHandler::UnCollapseAll);
+
+    addHoverHandler(new pyqtc::HoverHandler(worker_pool));
 }
 
 PythonEditorFactory::~PythonEditorFactory() {
-  delete action_handler_;
-}
-
-Core::Id PythonEditorFactory::id() const {
-  return constants::kEditorId;
-}
-
-QString PythonEditorFactory::displayName() const {
-  return tr(constants::kEditorDisplayName);
-}
-
-Core::IDocument* PythonEditorFactory::open(const QString& file_name) {
-  qDebug() << "Opening" << file_name;
-
-  Core::IEditor* iface = Core::EditorManager::instance()->openEditor(file_name, id());
-  if (!iface) {
-    qWarning() << "pyqtc::EditorFactory::open: openEditor failed for " << file_name;
-    return 0;
-  }
-  return iface->document();
-}
-
-Core::IEditor* PythonEditorFactory::createEditor() {
-  PythonEditorWidget* widget = new PythonEditorWidget();
-
-  //action_handler_->createActions();
-  TextEditor::TextEditorSettings::instance()->initializeEditor(widget);
-
-  return widget->editor();
-}
-
-QStringList PythonEditorFactory::mimeTypes() const {
-  return mime_types_;
 }
 
