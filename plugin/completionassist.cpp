@@ -29,7 +29,6 @@
 #include <texteditor/codeassist/functionhintproposalwidget.h>
 #include <texteditor/codeassist/genericproposal.h>
 #include <texteditor/codeassist/assistinterface.h>
-#include <texteditor/convenience.h>
 #include <texteditor/codeassist/assistproposalitem.h>
 #include <texteditor/codeassist/assistproposaliteminterface.h>
 

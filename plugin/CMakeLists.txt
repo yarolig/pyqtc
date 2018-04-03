@@ -34,6 +34,10 @@ configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/pyqtc.json.in
   ${CMAKE_CURRENT_BINARY_DIR}/pyqtc.json
 )
+if (DEFINED PYQTC_PLUGIN_VERSION)
+else()
+    set(PYQTC_PLUGIN_VERSION ${QTC_VERSION_MAJOR}.${QTC_VERSION_MINOR})
+endif()
 
 set(SOURCES
   ${CMAKE_CURRENT_BINARY_DIR}/config.cpp
