@@ -32,12 +32,9 @@ source directory will be used to find header files.
     cd bin
     cmake .. -DQTC_SOURCE=/path/to/qtcreator/source \
              -DQTC_BINARY=/path/to/qtcreator/installation \
-             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.6/gcc_64 \
-             -DPYQTC_PLUGIN_VERSION=4.5.83
+             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.6/gcc_64
     make
     make install
-
-Plugin version usually detecting automatically but for recent QtCreator 4.6 it is not working.
 
 You may need to copy `python.xml` to `~/.config/QtProject/qtcreator/generic-highlighter` if highlihgting not working.
 
