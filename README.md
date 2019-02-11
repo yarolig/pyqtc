@@ -10,8 +10,8 @@ Dependencies
 You need:
 
   * Protobuf 2.4.0 or greater.
-  * Qt Creator 4.6 source code.
-  * Qt 5.6.2. Other may be working.
+  * Qt Creator 4.7 source code.
+  * Qt 5.9.7. Other may be working.
   * Python and Pylint
 
 To install some dependencies on Ubuntu 16.04 you can launch `sudo apt-get install build-essential libprotoc-dev libprotobuf-dev python-protobuf cmake pylint`
@@ -19,7 +19,7 @@ To install some dependencies on Ubuntu 16.04 you can launch `sudo apt-get instal
 Compiling pyqtc
 ---------------
 
-Install Qt 5.6 using Qt online installer.
+Install Qt 5.9.7 using Qt online installer.
 
 Build Qt Creator.
 
@@ -32,7 +32,7 @@ source directory will be used to find header files.
     cd bin
     cmake .. -DQTC_SOURCE=/path/to/qtcreator/source \
              -DQTC_BINARY=/path/to/qtcreator/installation \
-             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.6/gcc_64
+             -DCMAKE_PREFIX_PATH=$HOME/Qt/5.9.7/gcc_64
     make
     make install
 
