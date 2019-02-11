@@ -24,69 +24,70 @@
 using namespace pyqtc;
 
 
-PythonIndenter::PythonIndenter()
+PythonIndenter::PythonIndenter(QTextDocument *doc)
+    : TextEditor::TextIndenter(doc)
 {
 }
 
-void PythonIndenter::indentBlock(QTextDocument* doc,
-                                 const QTextBlock& block,
-                                 const QChar& typed_char,
-                                 const TextEditor::TabSettings& tab_settings) {
-  // At beginning: Leave as is.
-  if (block == doc->begin())
-      return;
+int PythonIndenter::indentFor(const QTextBlock &block,
+                              const TextEditor::TabSettings &tab_settings,
+                              int /*cursorPositionInEditor*/)
+{
+    if (!block.isValid())
+        return 0;
 
-  // Find the last non-empty block
-  QTextBlock previous = block.previous();
-  QString previous_text;
+    // Find the last non-empty block
+    QTextBlock previous = block.previous();
+    QString previous_text;
 
-  forever {
-    if (previous == doc->begin()) {
-      // We reached the beginning of the document - do nothing
-      return;
+    forever {
+      if (!previous.isValid()) {
+        // We reached the beginning of the document - do nothing
+        return 0;
+      }
+
+      // Get the text of this block, if it's not empty then we're done.
+      previous_text = previous.text();
+      if (!previous_text.isEmpty() && !previous_text.trimmed().isEmpty()) {
+        break;
+      }
+
+      // Try another block
+      previous = previous.previous();
     }
 
-    // Get the text of this block, if it's not empty then we're done.
-    previous_text = previous.text();
-    if (!previous_text.isEmpty() && !previous_text.trimmed().isEmpty()) {
-      break;
+    // Start with the indentation of the previous line
+    int indentation_amount = -1;
+    int i = 0;
+    while (i < previous_text.size()) {
+      if (!previous_text.at(i).isSpace()) {
+        indentation_amount = tab_settings.columnAt(previous_text, i);
+        break;
+      }
+      ++i;
     }
 
-    // Try another block
-    previous = previous.previous();
-  }
-
-  // Start with the indentation of the previous line
-  int indentation_amount = -1;
-  int i = 0;
-  while (i < previous_text.size()) {
-    if (!previous_text.at(i).isSpace()) {
-      indentation_amount = tab_settings.columnAt(previous_text, i);
-      break;
+    if (indentation_amount == -1) {
+      return 0;
     }
-    ++i;
-  }
 
-  if (indentation_amount == -1) {
-    return;
-  }
+    // If the previous line ended with a colon, increase the indentation one level
+    if (previous_text.endsWith(':')) {
+      indentation_amount += tab_settings.m_indentSize;
+    } else {
+      const QString previous_trimmed = previous_text.trimmed();
 
-  // If the previous line ended with a colon, increase the indentation one level
-  if (previous_text.endsWith(':')) {
-    indentation_amount += tab_settings.m_indentSize;
-  } else {
-    const QString previous_trimmed = previous_text.trimmed();
-
-    if (previous_trimmed == "continue" ||
-        previous_trimmed == "break" ||
-        previous_trimmed == "pass" ||
-        previous_trimmed == "return" ||
-        previous_trimmed == "raise" ||
-        previous_trimmed.startsWith("raise ") ||
-        previous_trimmed.startsWith("return ")) {
-      indentation_amount -= tab_settings.m_indentSize;
+      if (previous_trimmed == "continue" ||
+          previous_trimmed == "break" ||
+          previous_trimmed == "pass" ||
+          previous_trimmed == "return" ||
+          previous_trimmed == "raise" ||
+          previous_trimmed.startsWith("raise ") ||
+          previous_trimmed.startsWith("return ")) {
+        indentation_amount -= tab_settings.m_indentSize;
+      }
     }
-  }
 
-  tab_settings.indentLine(block, indentation_amount);
+    // tab_settings.indentLine(block, indentation_amount);
+    return indentation_amount;
 }

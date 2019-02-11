@@ -46,7 +46,7 @@ PythonEditorFactory::PythonEditorFactory(QObject* parent, WorkerPool<WorkerClien
     addMimeType("application/python");
     addMimeType("application/x-python");
 
-    setIndenterCreator([]() { return new pyqtc::PythonIndenter; });
+    setIndenterCreator([](QTextDocument *doc) { return new pyqtc::PythonIndenter(doc); });
     setDocumentCreator([]() {
         return new TextEditor::TextDocument(pyqtc::constants::kEditorId);
     });

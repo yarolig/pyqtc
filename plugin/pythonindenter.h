@@ -18,19 +18,20 @@
 #pragma once
 
 #include <texteditor/indenter.h>
+#include <texteditor/textindenter.h>
 #include <texteditor/tabsettings.h>
 
 #include <QRegExp>
 
 namespace pyqtc {
 
-class PythonIndenter : public TextEditor::Indenter {
+class PythonIndenter : public TextEditor::TextIndenter {
 public:
-  PythonIndenter();
+  PythonIndenter(QTextDocument *doc);
 
-  void indentBlock(QTextDocument* doc, const QTextBlock& block,
-                   const QChar& typed_char,
-                   const TextEditor::TabSettings& tab_settings);
+  int indentFor(const QTextBlock &block,
+                const TextEditor::TabSettings &tab_settings,
+                int cursorPositionInEditor = -1) override;
 };
 
 } // namespace pyqtc
