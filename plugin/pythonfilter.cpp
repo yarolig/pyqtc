@@ -20,6 +20,7 @@
 #include "config.h"
 #include "pythonfilter.h"
 #include "pythonicons.h"
+#include "protostring.h"
 
 #include <coreplugin/editormanager/ieditor.h>
 #include <coreplugin/icore.h>
@@ -54,11 +55,11 @@ QList<Core::LocatorFilterEntry> PythonFilterBase::matchesFor(
   for (int i=0 ; i<response->result_size() ; ++i) {
     const pb::SearchResponse_Result* result = &response->result(i);
 
-    EntryInternalData internal_data(result->file_path(), result->line_number());
+    EntryInternalData internal_data(ProtoStringToQString(result->file_path()), result->line_number());
 
-    Core::LocatorFilterEntry entry(this, result->symbol_name(),
+    Core::LocatorFilterEntry entry(this, ProtoStringToQString(result->symbol_name()),
                                QVariant::fromValue(internal_data));
-    entry.extraInfo = result->module_name();
+    entry.extraInfo = ProtoStringToQString(result->module_name());
     entry.displayIcon = icons_->IconForSearchResult(*result);
 
     ret << entry;

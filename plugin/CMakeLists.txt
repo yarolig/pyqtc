@@ -59,6 +59,7 @@ set(HEADERS
   messagehandler.h
   plugin.h
   projects.h
+  protostring.h
   pythonfilter.h
   workerpool.h
 )
@@ -73,7 +74,7 @@ qt5_wrap_cpp(MOC ${HEADERS})
 qt5_wrap_ui(UIC ${UI})
 qt5_add_resources(QRC ${RESOURCES})
 
-protobuf_generate_cpp_qt(PROTO_SOURCES
+protobuf_generate_cpp(PROTO_SOURCES
   ${CMAKE_SOURCE_DIR}/common/rpc.proto
 )
 

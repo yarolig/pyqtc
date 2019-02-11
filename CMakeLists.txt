@@ -53,6 +53,5 @@ find_qt_creator_library(QTC_PROJECT_EXPLORER_LIB ProjectExplorer)
 find_qt_creator_library(QTC_UTILS_LIB            Utils)
 
 # Subdirectories
-add_subdirectory(protoc-gen-cpp_qt)
 add_subdirectory(parser)
 add_subdirectory(plugin)

@@ -17,6 +17,7 @@
 */
 
 #include "closure.h"
+#include "protostring.h"
 #include "hoverhandler.h"
 #include "rpc.pb.h"
 
@@ -52,7 +53,7 @@ void HoverHandler::TooltipResponse(WorkerClient::ReplyType* reply) {
     if (!reply->is_successful() || reply != current_reply_)
         return;
 
-    const QString& text = reply->message().tooltip_response().rich_text();
+    const QString& text = ProtoStringToQString(reply->message().tooltip_response().rich_text());
     if (current_editor_) {
         if (text.isEmpty()) {
             Utils::ToolTip::instance()->hide();

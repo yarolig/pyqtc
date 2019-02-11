@@ -17,6 +17,7 @@
 */
 
 #include "pythonicons.h"
+#include "protostring.h"
 
 #include <cplusplus/Icons.h>
 
@@ -26,7 +27,7 @@ QIcon PythonIcons::IconForCompletionProposal(
       const pb::CompletionResponse_Proposal& proposal) const {
   CPlusPlus::Icons::IconType type = CPlusPlus::Icons::UnknownIconType;
 
-  const bool is_private = proposal.name().startsWith("_");
+  const bool is_private = ProtoStringToQString(proposal.name()).startsWith("_");
 
   // Keywords are treated differently
   switch (proposal.scope()) {
@@ -66,7 +67,7 @@ QIcon PythonIcons::IconForCompletionProposal(
 QIcon PythonIcons::IconForSearchResult(const pb::SearchResponse_Result& result) const {
   CPlusPlus::Icons::IconType type = CPlusPlus::Icons::UnknownIconType;
 
-  const bool is_private = result.symbol_name().startsWith("_");
+  const bool is_private = ProtoStringToQString(result.symbol_name()).startsWith("_");
 
   switch (result.symbol_type()) {
   case pb::VARIABLE:

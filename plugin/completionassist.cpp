@@ -19,6 +19,7 @@
 
 #include "completionassist.h"
 #include "constants.h"
+#include "protostring.h"
 #include "pythonicons.h"
 #include "workerclient.h"
 #include "workerpool.h"
@@ -121,7 +122,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::perform(const TextEditor
 
   if (response->has_calltip()) {
     return CreateCalltipProposal(response->insertion_position(),
-                                 response->calltip());
+                                 ProtoStringToQString(response->calltip()));
   }
 
   if (response->proposal_size()) {
@@ -138,7 +139,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal
   foreach (const pb::CompletionResponse_Proposal& proposal,
            response->proposal()) {
     TextEditor::AssistProposalItem* item = new TextEditor::AssistProposalItem;
-    item->setText(proposal.name());
+    item->setText(ProtoStringToQString(proposal.name()));
     item->setIcon(icons_->IconForCompletionProposal(proposal));
 
     items << item;

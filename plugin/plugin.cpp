@@ -22,6 +22,7 @@
 #include "hoverhandler.h"
 #include "plugin.h"
 #include "projects.h"
+#include "protostring.h"
 #include "pythoneditorfactory.h"
 #include "pythonfilter.h"
 #include "pythonicons.h"
@@ -149,7 +150,7 @@ void Plugin::JumpToDefinitionFinished(WorkerClient::ReplyType* reply) {
 
   if (response.has_line()) {
     if (response.has_file_path()) {
-      Core::EditorManager::openEditorAt(response.file_path(), response.line());
+      Core::EditorManager::openEditorAt(ProtoStringToQString(response.file_path()), response.line());
     } else {
       editor->gotoLine(response.line());
     }
