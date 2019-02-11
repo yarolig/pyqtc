@@ -73,6 +73,12 @@ Plugin::Plugin()
 
 Plugin::~Plugin() {
   delete icons_;
+  if (pcdf) {delete pcdf;pcdf=nullptr;}
+  if (pff) {delete pff;pff=nullptr;}
+  if (pcf) {delete pcf;pcf=nullptr;}
+  if (pef) {delete pef;pef=nullptr;}
+  if (cap) {delete cap;cap=nullptr;}
+  if (p) {delete p;p=nullptr;}
 }
 
 bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
@@ -82,13 +88,12 @@ bool Plugin::initialize(const QStringList& arguments, QString* errorString) {
   qDebug() << "pyqtc Plugin::initialize";
 
   // Utils::addMimeTypes(QLatin1String(":/pythoneditor/PythonEditor.mimetypes.xml"));
-
-  addAutoReleasedObject(new Projects(worker_pool_));
-  addAutoReleasedObject(new CompletionAssistProvider(worker_pool_, icons_));
-  addAutoReleasedObject(new PythonEditorFactory(0, worker_pool_));
-  addAutoReleasedObject(new PythonClassFilter(worker_pool_, icons_));
-  addAutoReleasedObject(new PythonFunctionFilter(worker_pool_, icons_));
-  addAutoReleasedObject(new PythonCurrentDocumentFilter(worker_pool_, icons_));
+  p = new Projects(worker_pool_);
+  cap = new CompletionAssistProvider(worker_pool_, icons_);
+  pef = new PythonEditorFactory(0, worker_pool_);
+  pcf = new PythonClassFilter(worker_pool_, icons_);
+  pff = new PythonFunctionFilter(worker_pool_, icons_);
+  pcdf = new PythonCurrentDocumentFilter(worker_pool_, icons_);
 
   Core::Context context(constants::kEditorId);
   Core::ActionContainer* menu = Core::ActionManager::createMenu(constants::kMenuContext);

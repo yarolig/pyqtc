@@ -152,8 +152,7 @@ TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCompletionProposal
 
 TextEditor::IAssistProposal* CompletionAssistProcessor::CreateCalltipProposal(
     int position, const QString& text) {
-  FunctionHintProposalModel* model =
-      new FunctionHintProposalModel(text);
+  TextEditor::FunctionHintProposalModelPtr model(new FunctionHintProposalModel(text));
   return new TextEditor::FunctionHintProposal(position, model);
 }
 

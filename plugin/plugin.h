@@ -26,6 +26,14 @@ namespace pyqtc {
 
 class PythonIcons;
 
+
+class Projects;
+class CompletionAssistProvider;
+class PythonEditorFactory;
+class PythonClassFilter;
+class PythonFunctionFilter;
+class PythonCurrentDocumentFilter;
+
 class Plugin : public ExtensionSystem::IPlugin {
   Q_OBJECT
   Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "pyqtc.json")
@@ -48,6 +56,13 @@ private:
 
   WorkerPool<WorkerClient>* worker_pool_;
   PythonIcons* icons_;
+
+  Projects* p;
+  CompletionAssistProvider* cap;
+  PythonEditorFactory* pef;
+  PythonClassFilter* pcf;
+  PythonFunctionFilter* pff;
+  PythonCurrentDocumentFilter* pcdf;
 };
 
 } // namespace pyqtc
