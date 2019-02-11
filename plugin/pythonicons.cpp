@@ -19,20 +19,21 @@
 #include "pythonicons.h"
 #include "protostring.h"
 
-#include <cplusplus/Icons.h>
+#include <utils/utilsicons.h>
+
 
 using namespace pyqtc;
 
 QIcon PythonIcons::IconForCompletionProposal(
       const pb::CompletionResponse_Proposal& proposal) const {
-  CPlusPlus::Icons::IconType type = CPlusPlus::Icons::UnknownIconType;
+  Utils::CodeModelIcon::Type type = Utils::CodeModelIcon::Unknown;
 
   const bool is_private = ProtoStringToQString(proposal.name()).startsWith("_");
 
   // Keywords are treated differently
   switch (proposal.scope()) {
   case pb::CompletionResponse_Proposal_Scope_KEYWORD:
-    type = CPlusPlus::Icons::KeywordIconType;
+    type = Utils::CodeModelIcon::Keyword;
     break;
 
   default:
@@ -40,56 +41,56 @@ QIcon PythonIcons::IconForCompletionProposal(
     switch (proposal.type()) {
     case pb::CompletionResponse_Proposal_Type_INSTANCE:
       type = is_private ?
-            CPlusPlus::Icons::VarPrivateIconType :
-            CPlusPlus::Icons::VarPublicIconType;
+            Utils::CodeModelIcon::VarPrivate:
+            Utils::CodeModelIcon::VarPublic;
       break;
 
     case pb::CompletionResponse_Proposal_Type_CLASS:
-      type = CPlusPlus::Icons::ClassIconType;
+      type = Utils::CodeModelIcon::Class;
       break;
 
     case pb::CompletionResponse_Proposal_Type_FUNCTION:
       type = is_private ?
-            CPlusPlus::Icons::FuncPrivateIconType :
-            CPlusPlus::Icons::FuncPublicIconType;
+            Utils::CodeModelIcon::FuncPrivate:
+            Utils::CodeModelIcon::FuncPublic;
       break;
 
     case pb::CompletionResponse_Proposal_Type_MODULE:
-      type = CPlusPlus::Icons::NamespaceIconType;
+      type = Utils::CodeModelIcon::Namespace;
       break;
     }
     break;
   }
 
-  return CPlusPlus::Icons::iconForType(type);
+  return Utils::CodeModelIcon::iconForType(type);
 }
 
 QIcon PythonIcons::IconForSearchResult(const pb::SearchResponse_Result& result) const {
-  CPlusPlus::Icons::IconType type = CPlusPlus::Icons::UnknownIconType;
+  Utils::CodeModelIcon::Type type = Utils::CodeModelIcon::Unknown;
 
   const bool is_private = ProtoStringToQString(result.symbol_name()).startsWith("_");
 
   switch (result.symbol_type()) {
   case pb::VARIABLE:
     type = is_private ?
-          CPlusPlus::Icons::VarPrivateIconType :
-          CPlusPlus::Icons::VarPublicIconType;
+          Utils::CodeModelIcon::VarPrivate:
+          Utils::CodeModelIcon::VarPublic;
     break;
 
   case pb::CLASS:
-    type = CPlusPlus::Icons::ClassIconType;
+    type = Utils::CodeModelIcon::Class;
     break;
 
   case pb::FUNCTION:
     type = is_private ?
-          CPlusPlus::Icons::FuncPrivateIconType :
-          CPlusPlus::Icons::FuncPublicIconType;
+          Utils::CodeModelIcon::FuncPrivate:
+          Utils::CodeModelIcon::FuncPublic;
     break;
 
   case pb::MODULE:
-    type = CPlusPlus::Icons::NamespaceIconType;
+    type = Utils::CodeModelIcon::Namespace;
     break;
   }
 
-  return CPlusPlus::Icons::iconForType(type);
+  return Utils::CodeModelIcon::iconForType(type);
 }
